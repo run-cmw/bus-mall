@@ -1,11 +1,12 @@
 'use strict';
 
 ProductImg.all = [];
-ProductImg.last3 = [];
-ProductImg.randomNum = [];
+ProductImg.uniqueNum = [];
+ProductImg.lastThree = [];
+var imgEl = document.getElementById('product1'); // make this linked to Objects?
 var imgEl1 = document.getElementById('product1'); // make this linked to Objects?
-// var imgEl2 = document.getElementById('product2'); // make this linked to Objects?
-// var imgEl3 = document.getElementById('product3'); // make this linked to Objects?
+var imgEl2 = document.getElementById('product2'); // make this linked to Objects?
+var imgEl3 = document.getElementById('product3'); // make this linked to Objects?
 
 function ProductImg(name, filePath) {
   this.name = name;
@@ -40,57 +41,50 @@ new ProductImg('wine glass', 'img/wine-glass.jpg');
 console.log(ProductImg.all);
 
 // functions
-// function displayRandomProduct1() {
-//   var randomIndex = Math.floor(Math.random() * ProductImg.all.length);
-//   imgEl1.src = ProductImg.all[randomIndex].filePath;
-// }
-// function displayRandomProduct2() {
-//   var randomIndex = Math.floor(Math.random() * ProductImg.all.length);
-//   imgEl2.src = ProductImg.all[randomIndex].filePath;
-// }
-// function displayRandomProduct3() {
-//   var randomIndex = Math.floor(Math.random() * ProductImg.all.length);
-//   imgEl3.src = ProductImg.all[randomIndex].filePath;
-// }
-
-// function displayRandomProduct() {
-//   var randomIndex = Math.floor(Math.random() * ProductImg.all.length);
-//   imgEl1.src = ProductImg.all[randomIndex].filePath;
-//   imgEl2.src = ProductImg.all[randomIndex].filePath;
-//   imgEl3.src = ProductImg.all[randomIndex].filePath;
-// }
-
 function generateUniqueNum() {
-  ProductImg.randomNum = [];
-  while (ProductImg.randomNum.length < 3) { // while
+  ProductImg.uniqueNum = [];
+  while (ProductImg.uniqueNum.length < 3) {
     var randomIndex = Math.floor(Math.random() * ProductImg.all.length);
     console.log(randomIndex);
-    if (ProductImg.randomNum.indexOf(randomIndex) < 0) {
-      ProductImg.randomNum.push(randomIndex);
-      console.log(ProductImg.randomNum);
+    if (ProductImg.uniqueNum.indexOf(randomIndex) < 0) {
+      ProductImg.uniqueNum.push(randomIndex);
+      console.log(ProductImg.uniqueNum);
     } else {
-      // randomIndex = Math.floor(Math.random() * ProductImg.all.length);
       generateUniqueNum();
     }
   }
 }
+// check for 6 because what if one was replaced for index - then reused for index 1 or 2?
+function notLastThree() {
+  ProductImg.lastThree = [];
+  while (ProductImg.lastThree.length < 3) {
+    for (var i = 0; i < ProductImg.uniqueNum.length; i++) {
+      imgEl.src = ProductImg.all[ProductImg.uniqueNum[i]].filePath;
+      console.log(imgEl.src);
+      if (ProductImg.lastThree.indexOf(imgEl.src) < 0) {
+        ProductImg.lastThree.push(imgEl.src);
+        console.log(ProductImg.lastThree);
+      } else {
+        notLastThree();
+      }
+    }
+  }
+}
 
-// push images based on ProductImg.randomNum indeces
+//event handler
+function displayRandomProduct() {
+  generateUniqueNum();
+  notLastThree();
 
-// generate image not used last time
-
-
-// function displayRandomProduct() {
-//   imgEl1.src = ProductImg.all[randomIndex].filePath;
-//   ProductImg.last3.push()
-// }
+  imgEl1.src = ProductImg.lastThree[0];
+  imgEl2.src = ProductImg.lastThree[1];
+  imgEl3.src = ProductImg.lastThree[2];
+}
 
 // event listeners
-// imgEl1.addEventListener('click', displayRandomProduct);
-
+imgEl1.addEventListener('click', displayRandomProduct);
+imgEl2.addEventListener('click', displayRandomProduct);
+imgEl3.addEventListener('click', displayRandomProduct);
 
 // executables
-// displayRandomProduct();
-// displayRandomProduct1();
-// displayRandomProduct2();
-// displayRandomProduct3();
+displayRandomProduct();
