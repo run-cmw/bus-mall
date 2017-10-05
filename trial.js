@@ -3,6 +3,8 @@
 ProductImg.all = [];
 ProductImg.lastThree = [];
 ProductImg.totalClicks = 0;
+var chartNames = []; // can I attach to object?
+var chartVotes = []; // can I attach to object?
 ProductImg.imgElLeft = document.getElementById('product-left');
 ProductImg.imgElMiddle = document.getElementById('product-middle');
 ProductImg.imgElRight = document.getElementById('product-right');
@@ -48,7 +50,6 @@ function randomProduct() {
   var randomRight = randomNumber();
 
   while (ProductImg.lastThree.includes(randomLeft) || ProductImg.lastThree.includes(randomMiddle) || ProductImg.lastThree.includes(randomRight) || randomLeft === randomRight || randomLeft === randomMiddle || randomMiddle === randomRight) {
-    console.log('Fixed duplicate');
     randomLeft = randomNumber();
     randomMiddle = randomNumber();
     randomRight = randomNumber();
@@ -61,9 +62,6 @@ function randomProduct() {
   ProductImg.imgElLeft.alt = ProductImg.all[randomLeft].altText;
   ProductImg.imgElMiddle.alt = ProductImg.all[randomMiddle].altText;
   ProductImg.imgElRight.alt = ProductImg.all[randomRight].altText;
-  console.log(ProductImg.all[randomLeft].altText);
-  console.log(ProductImg.all[randomMiddle].altText);
-  console.log(ProductImg.all[randomRight].altText);
 
   ProductImg.all[randomLeft].timesShown++;
   ProductImg.all[randomMiddle].timesShown++;
@@ -73,19 +71,71 @@ function randomProduct() {
   ProductImg.lastThree.push(randomLeft, randomMiddle, randomRight);
 }
 
-function handleClick(event) {
-  ProductImg.totalClicks++;
+function hideVoteOptions() {
+  document.getElementById('options').hidden = true;
+}
 
+function hideChart() {
+  document.getElementById('chart-bg').hidden = true;
+}
+
+function updateChartArrays() {
+  for (var i = 0; i < ProductImg.all.length; i++) {
+    chartNames[i] = ProductImg.all[i].name;
+    chartVotes[i] = ProductImg.all[i].timesClicked;
+  }
+}
+
+function generateRandomColor() {
+  var colorArr = [];
+  for (var i = 0; i < ProductImg.all.length; i++) {
+    colorArr.push('hsl(' + (Math.random() * 360) + ', 80%, 60%)');
+  }
+  return colorArr;
+}
+
+// can this be attached to object?
+var data = {
+  labels: chartNames,
+  datasets: [
+    {
+      label: 'Number of Votes',
+      data: chartVotes,
+      backgroundColor: generateRandomColor(),
+      hoverBackgroundColor: generateRandomColor(),
+    }],
+  options: {
+    legend: {display: false} // doesn't seem to work
+  }
+};
+
+function drawChart() {
+  var ctx = document.getElementById('chart').getContext('2d');
+  var resultChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+
+  });
+}
+
+function handleClick(event) {
   for(var i = 0; i < ProductImg.all.length; i++) {
     if(event.target.alt === ProductImg.all[i].altText) {
       ProductImg.all[i].timesClicked++;
+      updateChartArrays();
     }
   }
 
-  if (ProductImg.totalClicks === 25) {
+  ProductImg.totalClicks++;
+
+  if (ProductImg.totalClicks > 25) {
     ProductImg.imgElLeft.removeEventListener('click', handleClick);
     ProductImg.imgElMiddle.removeEventListener('click', handleClick);
     ProductImg.imgElRight.removeEventListener('click', handleClick);
+
+    hideVoteOptions();
+    document.getElementById('chart-bg').hidden = false;
+    drawChart();
 
     for (var j = 0; j < ProductImg.all.length; j++) {
       var liEl = document.createElement('li');
@@ -102,3 +152,4 @@ ProductImg.imgElMiddle.addEventListener('click', handleClick);
 ProductImg.imgElRight.addEventListener('click', handleClick);
 
 randomProduct();
+hideChart();
