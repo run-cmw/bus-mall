@@ -1,5 +1,41 @@
-/*reset css*/
+body {
+  background-image: url(img/bwbackground.jpg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: rgb(200, 200, 200);
+}
+
+main {
+  width: 70%;
+  margin: 0px auto;
+  border-radius: 10px;
+  background-color: rgba(1, 93, 72, 0.9);
+  padding: 5px 0px 5px 5px;
+}
+
+section {
+  margin: 10px auto;
+  border-radius: 10px;
+  padding-top: 5px;
+  width: 75%;
+  background-color: rgba(1, 93, 72, 0.9);
+}
+
+section img {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+}
+
+section img:first-child {
+  margin-left: 12%;
+}
 
 img:hover {
-  opacity: 0.6;
+  opacity: 0.8;
+}
+
+#chart-bg {
+  background-color: rgba(240, 240, 240, 0.9);
 }

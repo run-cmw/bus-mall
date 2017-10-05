@@ -2,21 +2,24 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <!-- css reset below-->
-    <link rel="stylesheet" href="">
+    <!-- <link rel="stylesheet" href="reset.css"> -->
     <link rel="stylesheet" href="style.css">
-    <!-- link chart.js below -->
-    <script type="text/javascript">
-
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js" type="text/javascript"></script>
     <title>BusMall</title>
   </head>
   <body>
-    <!-- Directions:  Thanks-->
-    <!-- Directions:  What to do (clear directions)-->
-    <!-- Directions:  Why you'e doing it (purpose)-->
+    <main>
+      <p>Thank you for participating in this BusMall focus group! Your support will help us enhance your and other passengers' Puget Sound Regional Transit bus experience. </p>
+      <p>Directions:</p>
+      <ul>
+        <li>You will see three images on the screen.</li>
+        <li>Select the image you are most interested in seeing in the BusMall brochure.</li>
+        <li>After you have voted 25 times, a summary of votes will appear. Feel free to explore it.</li>
+      </ul>
+      <p>Thanks again for your valuable time. The BusMall team appreciates you!</p>
+    </main>
 
-    <section>
+    <section id="options">
       <img id="product-left" src="" alt="1 of 3 products to vote on" />
       <img id="product-middle" src="" alt="2 of 3 products to vote on" />
       <img id="product-right" src="" alt="3 of 3 products to vote on" />
@@ -24,7 +27,12 @@
       <ol id="results"></ol>
     </section>
 
-    <!-- canvas element with width and height -->
+    <section id='chart-bg'>
+      <canvas id="chart" width="600" height="300"></canvas>
+    </section>
+
+    Background image by Steve Morgan
+
 
     <script src="app.js" type="text/javascript"></script>
     <!-- <script src="trial.js" type="text/javascript"></script> -->
