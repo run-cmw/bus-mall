@@ -5,6 +5,7 @@ ProductImg.lastThree = [];
 ProductImg.totalClicks = 0;
 var chartNames = []; // can I attach to object?
 var chartVotes = []; // can I attach to object?
+var storedVotes = []; // can I attach to object?
 ProductImg.imgElLeft = document.getElementById('product-left');
 ProductImg.imgElMiddle = document.getElementById('product-middle');
 ProductImg.imgElRight = document.getElementById('product-right');
@@ -114,7 +115,6 @@ function drawChart() {
   var resultChart = new Chart(ctx, {
     type: 'bar',
     data: data,
-
   });
 }
 
@@ -122,6 +122,8 @@ function handleClick(event) {
   for(var i = 0; i < ProductImg.all.length; i++) {
     if(event.target.alt === ProductImg.all[i].altText) {
       ProductImg.all[i].timesClicked++;
+      var store = localStorage.setItem([i], JSON.stringify(ProductImg.all[i].timesClicked));
+      storedVotes.push(store);
       updateChartArrays();
     }
   }
@@ -153,3 +155,5 @@ ProductImg.imgElRight.addEventListener('click', handleClick);
 
 randomProduct();
 hideChart();
+var getIt = JSON.parse(localStorage['store']);
+getIt;
