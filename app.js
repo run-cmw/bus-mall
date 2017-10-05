@@ -78,7 +78,7 @@ function handleClick(event) {
     }
   }
 
-  if (ProductImg.totalClicks === 25) {
+  if (ProductImg.totalClicks > 25) {
     ProductImg.imgElLeft.removeEventListener('click', handleClick);
     ProductImg.imgElMiddle.removeEventListener('click', handleClick);
     ProductImg.imgElRight.removeEventListener('click', handleClick);
