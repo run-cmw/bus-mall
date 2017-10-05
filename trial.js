@@ -48,6 +48,7 @@ function randomProduct() {
   var randomRight = randomNumber();
 
   while (ProductImg.lastThree.includes(randomLeft) || ProductImg.lastThree.includes(randomMiddle) || ProductImg.lastThree.includes(randomRight) || randomLeft === randomRight || randomLeft === randomMiddle || randomMiddle === randomRight) {
+    console.log('Fixed duplicate');
     randomLeft = randomNumber();
     randomMiddle = randomNumber();
     randomRight = randomNumber();
@@ -60,6 +61,9 @@ function randomProduct() {
   ProductImg.imgElLeft.alt = ProductImg.all[randomLeft].altText;
   ProductImg.imgElMiddle.alt = ProductImg.all[randomMiddle].altText;
   ProductImg.imgElRight.alt = ProductImg.all[randomRight].altText;
+  console.log(ProductImg.all[randomLeft].altText);
+  console.log(ProductImg.all[randomMiddle].altText);
+  console.log(ProductImg.all[randomRight].altText);
 
   ProductImg.all[randomLeft].timesShown++;
   ProductImg.all[randomMiddle].timesShown++;
