@@ -1,120 +1,104 @@
 'use strict';
 
 ProductImg.all = [];
-ProductImg.uniqueNum = [];
 ProductImg.lastThree = [];
 ProductImg.totalClicks = 0;
-ProductImg.imgEl = document.getElementById('product1'); // make this linked to Objects?
-ProductImg.imgEl1 = document.getElementById('product1'); // make this linked to Objects?
-ProductImg.imgEl2 = document.getElementById('product2'); // make this linked to Objects?
-ProductImg.imgEl3 = document.getElementById('product3'); // make this linked to Objects?
-ProductImg.ulEl = document.getElementById('results');
+ProductImg.imgElLeft = document.getElementById('product-left');
+ProductImg.imgElMiddle = document.getElementById('product-middle');
+ProductImg.imgElRight = document.getElementById('product-right');
+ProductImg.olEl = document.getElementById('results');
 
-function ProductImg(name, filePath) {
+function ProductImg(name, filePath, altText) {
   this.name = name;
   this.filePath = filePath;
+  this.altText = altText;
   this.timesShown = 0;
   this.timesClicked = 0;
   ProductImg.all.push(this);
 }
 
-// refactor with fancy function later?
-new ProductImg('luggage', 'img/bag.jpg');
-new ProductImg('banana cutter', 'img/banana.jpg');
-new ProductImg('bathroom stand', 'img/bathroom.jpg');
-new ProductImg('rain boots', 'img/boots.jpg');
-new ProductImg('breakfast maker', 'img/breakfast.jpg');
-new ProductImg('meatball gum', 'img/bubblegum.jpg');
-new ProductImg('chair', 'img/chair.jpg');
-new ProductImg('cthulhu', 'img/cthulhu.jpg');
-new ProductImg('dog beak', 'img/dog-duck.jpg');
-new ProductImg('dragon meat', 'img/dragon.jpg');
-new ProductImg('utensil pen', 'img/pen.jpg');
-new ProductImg('sweeper dog', 'img/pet-sweep.jpg');
-new ProductImg('pizza scissors', 'img/scissors.jpg');
-new ProductImg('shark sleeper', 'img/shark.jpg');
-new ProductImg('sweeper baby', 'img/sweep.png');
-new ProductImg('tauntaun sleeper', 'img/tauntaun.jpg');
-new ProductImg('unicorn meat', 'img/unicorn.jpg');
-new ProductImg('usb tail', 'img/usb.gif');
-new ProductImg('water can', 'img/water-can.jpg');
-new ProductImg('wine glass', 'img/wine-glass.jpg');
+new ProductImg('luggage', 'img/bag.jpg', 'luggage');
+new ProductImg('banana cutter', 'img/banana.jpg', 'banana cutter');
+new ProductImg('bathroom stand', 'img/bathroom.jpg', 'bathroom stand');
+new ProductImg('rain boots', 'img/boots.jpg', 'rain boots');
+new ProductImg('breakfast maker', 'img/breakfast.jpg', 'breakfast maker');
+new ProductImg('meatball gum', 'img/bubblegum.jpg', 'meatball gum');
+new ProductImg('chair', 'img/chair.jpg', 'chair');
+new ProductImg('cthulhu', 'img/cthulhu.jpg', 'cthulhu');
+new ProductImg('dog beak', 'img/dog-duck.jpg', 'dog beak');
+new ProductImg('dragon meat', 'img/dragon.jpg', 'dragon meat');
+new ProductImg('utensil pen', 'img/pen.jpg', 'utensil pen');
+new ProductImg('sweeper dog', 'img/pet-sweep.jpg', 'sweeper dog');
+new ProductImg('pizza scissors', 'img/scissors.jpg', 'pizza scissors');
+new ProductImg('shark sleeper', 'img/shark.jpg', 'shark sleeper');
+new ProductImg('sweeper baby', 'img/sweep.png', 'sweeper baby');
+new ProductImg('tauntaun sleeper', 'img/tauntaun.jpg', 'tauntaun sleeper');
+new ProductImg('unicorn meat', 'img/unicorn.jpg'), 'unicorn meat';
+new ProductImg('usb tail', 'img/usb.gif', 'usb tail');
+new ProductImg('water can', 'img/water-can.jpg', 'water can');
+new ProductImg('wine glass', 'img/wine-glass.jpg', 'wine glass');
 
-console.log(ProductImg.all);
-
-// functions
-function generateUniqueNum() {
-  ProductImg.uniqueNum = [];
-  while (ProductImg.uniqueNum.length < 3) {
-    var randomIndex = Math.floor(Math.random() * ProductImg.all.length);
-    console.log(randomIndex);
-    if (ProductImg.uniqueNum.indexOf(randomIndex) < 0) {
-      ProductImg.uniqueNum.push(randomIndex);
-      console.log(ProductImg.uniqueNum);
-    } else {
-      generateUniqueNum();
-    }
-  }
+function randomNumber() {
+  return Math.floor(Math.random() * ProductImg.all.length);
 }
-//what if image 0 is replaced first then is chosen for the second image?! what about that check for 6 advice?
-function notLastThree() {
+
+function randomProduct() {
+  var randomLeft = randomNumber();
+  var randomMiddle = randomNumber();
+  var randomRight = randomNumber();
+
+  while (ProductImg.lastThree.includes(randomLeft) || ProductImg.lastThree.includes(randomMiddle) || ProductImg.lastThree.includes(randomRight) || randomLeft === randomRight || randomLeft === randomMiddle || randomMiddle === randomRight) {
+    console.log('Fixed duplicate');
+    randomLeft = randomNumber();
+    randomMiddle = randomNumber();
+    randomRight = randomNumber();
+  }
+
+  ProductImg.imgElLeft.src = ProductImg.all[randomLeft].filePath;
+  ProductImg.imgElMiddle.src = ProductImg.all[randomMiddle].filePath;
+  ProductImg.imgElRight.src = ProductImg.all[randomRight].filePath;
+
+  ProductImg.imgElLeft.alt = ProductImg.all[randomLeft].altText;
+  ProductImg.imgElMiddle.alt = ProductImg.all[randomMiddle].altText;
+  ProductImg.imgElRight.alt = ProductImg.all[randomRight].altText;
+  console.log(ProductImg.all[randomLeft].altText);
+  console.log(ProductImg.all[randomMiddle].altText);
+  console.log(ProductImg.all[randomRight].altText);
+
+  ProductImg.all[randomLeft].timesShown++;
+  ProductImg.all[randomMiddle].timesShown++;
+  ProductImg.all[randomRight].timesShown++;
+
   ProductImg.lastThree = [];
-  while (ProductImg.lastThree.length < 3) {
-    for (var i = 0; i < ProductImg.uniqueNum.length; i++) {
-      ProductImg.imgEl.src = ProductImg.all[ProductImg.uniqueNum[i]].filePath;
-      console.log(ProductImg.imgEl.src);
-      // can use ProductImg.lastThree.includes() instead of indexOf() -- lastDisplayed array??
-      if (ProductImg.lastThree.indexOf(ProductImg.imgEl.src) < 0) {
-        ProductImg.lastThree.push(ProductImg.imgEl.src);
-        // increment this.timesShown in the function when it's displayed!!!
-        console.log(ProductImg.lastThree);
-      } else {
-        notLastThree();
-      }
+  ProductImg.lastThree.push(randomLeft, randomMiddle, randomRight);
+}
+
+function handleClick(event) {
+  ProductImg.totalClicks++;
+
+  for(var i = 0; i < ProductImg.all.length; i++) {
+    if(event.target.alt === ProductImg.all[i].altText) {
+      ProductImg.all[i].timesClicked++;
     }
   }
-}
 
-// use value of id to count votes for each image
-//add id or alt parameter to constructor for comparison
-// for loop if the event.target == [i]
-// increment votes
-
-// show results on list with function
-// create, content, and append li to ul
-
-
-//event handler
-function handleClick() { // event parameter?
-  ProductImg.totalClicks++;
   if (ProductImg.totalClicks === 25) {
-    ProductImg.imgEl1.removeEventListener('click', handleClick); // make HTML section for one and remove event listeners?
-    ProductImg.imgEl2.removeEventListener('click', handleClick);
-    ProductImg.imgEl3.removeEventListener('click', handleClick);
+    ProductImg.imgElLeft.removeEventListener('click', handleClick);
+    ProductImg.imgElMiddle.removeEventListener('click', handleClick);
+    ProductImg.imgElRight.removeEventListener('click', handleClick);
+
+    for (var j = 0; j < ProductImg.all.length; j++) {
+      var liEl = document.createElement('li');
+      liEl.textContent = ProductImg.all[j].name + ' received ' + ProductImg.all[j].timesClicked + ' votes in ' + ProductImg.all[j].timesShown + ' timesShown';
+      ProductImg.olEl.appendChild(liEl);
+    }
   }
 
-  // show results
-
-
-  generateUniqueNum();
-  notLastThree();
-  ProductImg.imgEl1.src = ProductImg.lastThree[0];
-  ProductImg.imgEl2.src = ProductImg.lastThree[1];
-  ProductImg.imgEl3.src = ProductImg.lastThree[2];
+  randomProduct();
 }
 
-// event listeners
-ProductImg.imgEl1.addEventListener('click', handleClick);
-ProductImg.imgEl2.addEventListener('click', handleClick);
-ProductImg.imgEl3.addEventListener('click', handleClick);
+ProductImg.imgElLeft.addEventListener('click', handleClick);
+ProductImg.imgElMiddle.addEventListener('click', handleClick);
+ProductImg.imgElRight.addEventListener('click', handleClick);
 
-// imgEl1.src.addEventListener('click', function() { // something like these next two; loop to hit them all?
-//   this.timesClicked++;
-// });
-
-// executables
-handleClick();
-
-// try random color rgb(random(0,255), random(0, 255), random(0, 255))
-// Math.floor(Math.random() * 256)
-// set global alpha? ctx.globalAlpha = 0.2; ... or rgba? or opacity?
+randomProduct();
