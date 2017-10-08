@@ -25,10 +25,8 @@ section {
 section img {
   width: 200px;
   height: 200px;
-  /*margin: auto;*/
 }
 
-/* I WANT TO CENTER THIS BETTER */
 section img:first-child {
   margin-left: 12%;
 }
