@@ -3,8 +3,8 @@
 ProductImg.all = [];
 ProductImg.lastThree = [];
 ProductImg.totalClicks = 0;
-var chartNames = []; // can I attach to object?
-var chartVotes = []; // can I attach to object?
+var chartNames = [];
+var chartVotes = [];
 ProductImg.imgElLeft = document.getElementById('product-left');
 ProductImg.imgElMiddle = document.getElementById('product-middle');
 ProductImg.imgElRight = document.getElementById('product-right');
@@ -94,7 +94,7 @@ function generateRandomColor() {
   return colorArr;
 }
 
-// can this be attached to object?
+// TURN OFF RESPONSIVENESS TO SEE IF THAT AFFECTS NAMES
 var data = {
   labels: chartNames,
   datasets: [
@@ -104,17 +104,13 @@ var data = {
       backgroundColor: generateRandomColor(),
       hoverBackgroundColor: generateRandomColor(),
     }],
-  options: {
-    legend: {display: false} // doesn't seem to work
-  }
 };
 
 function drawChart() {
   var ctx = document.getElementById('chart').getContext('2d');
-  var resultChart = new Chart(ctx, {
+  new Chart(ctx, {
     type: 'bar',
     data: data,
-
   });
 }
 
@@ -122,6 +118,12 @@ function handleClick(event) {
   for(var i = 0; i < ProductImg.all.length; i++) {
     if(event.target.alt === ProductImg.all[i].altText) {
       ProductImg.all[i].timesClicked++;
+      // var names = localStorage.setItem([i], JSON.stringify(ProductImg.all[i].name));
+      // var votes = localStorage.setItem([i], JSON.stringify(ProductImg.all[i].timesClicked));
+      // storedNames.push(names);
+      // storedVotes.push(votes);
+
+      // MAYBE THIS IS WHERE I ADD NEW VOTES TO STORED VOTES
       updateChartArrays();
     }
   }
@@ -132,7 +134,8 @@ function handleClick(event) {
     ProductImg.imgElLeft.removeEventListener('click', handleClick);
     ProductImg.imgElMiddle.removeEventListener('click', handleClick);
     ProductImg.imgElRight.removeEventListener('click', handleClick);
-
+    localStorage.setItem('names', JSON.stringify(chartNames));
+    localStorage.setItem('votes', JSON.stringify(chartVotes));
     hideVoteOptions();
     document.getElementById('chart-bg').hidden = false;
     drawChart();
@@ -153,3 +156,6 @@ ProductImg.imgElRight.addEventListener('click', handleClick);
 
 randomProduct();
 hideChart();
+
+JSON.parse(localStorage.getItem('votes'));
+console.log(localStorage.votes);
