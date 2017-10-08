@@ -1,3 +1,6 @@
+// make stored votes add to new votes and display on chart!
+// fix chart names display, make legend display: none, and add title
+
 'use strict';
 
 ProductImg.all = [];
@@ -5,6 +8,8 @@ ProductImg.lastThree = [];
 ProductImg.totalClicks = 0;
 var chartNames = [];
 var chartVotes = [];
+// var newVotes, oldVotes;
+// var storedTotal = [];
 ProductImg.imgElLeft = document.getElementById('product-left');
 ProductImg.imgElMiddle = document.getElementById('product-middle');
 ProductImg.imgElRight = document.getElementById('product-right');
@@ -84,6 +89,7 @@ function updateChartArrays() {
     chartNames[i] = ProductImg.all[i].name;
     chartVotes[i] = ProductImg.all[i].timesClicked;
   }
+  // newVotes = localStorage.setItem('votes', JSON.stringify(chartVotes));
 }
 
 function generateRandomColor() {
@@ -94,7 +100,6 @@ function generateRandomColor() {
   return colorArr;
 }
 
-// TURN OFF RESPONSIVENESS TO SEE IF THAT AFFECTS NAMES
 var data = {
   labels: chartNames,
   datasets: [
@@ -114,16 +119,22 @@ function drawChart() {
   });
 }
 
+// function newVoteTotal() {
+//   for (var i = 0; i < oldVotes.length; i++) {
+//     storedTotal.push(oldVotes[i] + newVotes[i]);
+//   }
+//   console.log(oldVotes);
+//   console.log(newVotes);
+//   console.log(storedTotal);
+// }
+
+// oldVotes = JSON.parse(localStorage.getItem('votes'));
+// oldVotes;
+
 function handleClick(event) {
   for(var i = 0; i < ProductImg.all.length; i++) {
     if(event.target.alt === ProductImg.all[i].altText) {
       ProductImg.all[i].timesClicked++;
-      // var names = localStorage.setItem([i], JSON.stringify(ProductImg.all[i].name));
-      // var votes = localStorage.setItem([i], JSON.stringify(ProductImg.all[i].timesClicked));
-      // storedNames.push(names);
-      // storedVotes.push(votes);
-
-      // MAYBE THIS IS WHERE I ADD NEW VOTES TO STORED VOTES
       updateChartArrays();
     }
   }
@@ -135,7 +146,8 @@ function handleClick(event) {
     ProductImg.imgElMiddle.removeEventListener('click', handleClick);
     ProductImg.imgElRight.removeEventListener('click', handleClick);
     localStorage.setItem('names', JSON.stringify(chartNames));
-    localStorage.setItem('votes', JSON.stringify(chartVotes));
+    // newVotes = localStorage.setItem('votes', JSON.stringify(chartVotes));
+    // newVoteTotal();
     hideVoteOptions();
     document.getElementById('chart-bg').hidden = false;
     drawChart();
@@ -156,6 +168,4 @@ ProductImg.imgElRight.addEventListener('click', handleClick);
 
 randomProduct();
 hideChart();
-
 JSON.parse(localStorage.getItem('votes'));
-console.log(localStorage.votes);
