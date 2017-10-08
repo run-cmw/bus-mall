@@ -94,7 +94,6 @@ function generateRandomColor() {
   return colorArr;
 }
 
-// TURN OFF RESPONSIVENESS TO SEE IF THAT AFFECTS NAMES
 var data = {
   labels: chartNames,
   datasets: [
@@ -118,12 +117,6 @@ function handleClick(event) {
   for(var i = 0; i < ProductImg.all.length; i++) {
     if(event.target.alt === ProductImg.all[i].altText) {
       ProductImg.all[i].timesClicked++;
-      // var names = localStorage.setItem([i], JSON.stringify(ProductImg.all[i].name));
-      // var votes = localStorage.setItem([i], JSON.stringify(ProductImg.all[i].timesClicked));
-      // storedNames.push(names);
-      // storedVotes.push(votes);
-
-      // MAYBE THIS IS WHERE I ADD NEW VOTES TO STORED VOTES
       updateChartArrays();
     }
   }
@@ -158,4 +151,3 @@ randomProduct();
 hideChart();
 
 JSON.parse(localStorage.getItem('votes'));
-console.log(localStorage.votes);
